@@ -1,4 +1,5 @@
 import { constrainedRandom } from 'generators/constrainedRandom';
+import { cullOverTime } from 'generators/cullOverTime';
 import { growShrinkRandom } from 'generators/growShrinkRandom';
 import { pureRandom } from 'generators/pureRandom';
 import { simplexNoise } from 'generators/simplexNoise';
@@ -15,17 +16,19 @@ const generators = {
   'constrained-random': constrainedRandom,
   'grow-shrink-random': growShrinkRandom,
   'pure-random': pureRandom,
+  'cull-over-time': cullOverTime,
 };
 
-let generator = generators['simplex-noise'](NOTES, STEPS);
+let generator = generators['cull-over-time'](NOTES, STEPS);
 
 const sequencer = new Sequencer();
-sequencer.on('loop', () => {
+
+sequencer.on('step', (step) => {
   generator.next();
   sequencer.update(generator.grid);
   updateGrid(generator.grid);
+  highlightGrid(generator.grid, step, STEPS);
 });
-sequencer.on('step', (step) => highlightGrid(generator.grid, step, STEPS));
 
 document
   .querySelector('#generator')

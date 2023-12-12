@@ -16,7 +16,7 @@
       "git add"
     ]
   },
-  "author": "Camilo Mejia",
+  "author": "Leigh Mannes",
   "license": "ISC",
   "dependencies": {
     "@babel/core": "^7.12.16",
