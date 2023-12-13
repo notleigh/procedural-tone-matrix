@@ -1,20 +1,23 @@
 import seedrandom from 'seedrandom';
+
 import { Generator } from './types';
 
 export const cullOverTime: Generator = (notes: number, steps: number) => {
-  const grid = Array(notes * steps).fill(0);
-  const newToAdd : number[] = [];
+  const grid = Array(notes * steps);
+  for (let i = 0; i < notes * steps; i++) {
+    grid[i] = { life: 0, color: 0 };
+  }
+  const newToAdd: number[] = [];
 
   const next = () => {
-    console.log('next!');
-    for(let i = 0; i < notes * steps; i++) {
-      if(grid[i] > 0) {
-        grid[i] = grid[i] - 1;
+    for (let i = 0; i < notes * steps; i++) {
+      if (grid[i].life > 0) {
+        grid[i].life = grid[i].life - 1;
       }
     }
-    if(newToAdd.length > 0) {
+    if (newToAdd.length > 0) {
       const index = newToAdd.pop() as number;
-      grid[index] = steps * 10;
+      grid[index].life = steps * 10;
     }
   };
 
@@ -29,18 +32,19 @@ export const cullOverTime: Generator = (notes: number, steps: number) => {
     }
 
     if (event.key === 'Enter') {
-      console.log(keySequence);
       const sequence = keySequence.join('');
       console.log(`Sequence entered: ${sequence}`);
 
       keySequence = [];
 
       const rng = seedrandom(sequence);
+      const color = `hsl(${Math.floor(rng() * 360)}, 100%, 50%)`;
 
-      for(let i = 0; i < 10; i++) {
+      for (let i = 0; i < 10; i++) {
         const index = Math.floor(rng() * notes * steps);
-        newToAdd.push(index);
-        //grid[index] = steps * 10 - (i * 3);
+        //newToAdd.push(index);
+        grid[index].life = steps * 10 - i * 3;
+        grid[index].color = color;
       }
       newToAdd.sort((a, b) => b - a);
     }

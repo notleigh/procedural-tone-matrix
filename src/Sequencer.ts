@@ -1,4 +1,5 @@
 import SynthInstrument from 'SynthInstrument';
+import { GridCell } from 'grid';
 import * as Tone from 'tone';
 import { Emitter, Sequence } from 'tone';
 
@@ -59,11 +60,11 @@ export default class Sequencer {
     Tone.Transport.stop();
   }
 
-  update(grid: number[]) {
+  update(grid: GridCell[]) {
     grid.forEach((element, index) => {
       const noteIndex = Math.floor(index / this.steps);
       const step = index % this.steps;
-      if (element) {
+      if (element.life) {
         this.instruments[0].scheduleNote(noteIndex, step);
       } else {
         this.instruments[0].unscheduleNote(noteIndex, step);

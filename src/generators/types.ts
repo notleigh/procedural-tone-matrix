@@ -1,7 +1,9 @@
+import { GridCell } from 'grid';
+
 export type Generator = (
   notes: number,
   steps: number,
 ) => {
-  grid: number[];
+  grid: GridCell[];
   next: () => void;
 };
