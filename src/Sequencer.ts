@@ -1,5 +1,5 @@
-import SynthInstrument from 'SynthInstrument';
 import { GridCell } from 'grid';
+import SynthInstrument from 'SynthInstrument';
 import * as Tone from 'tone';
 import { Emitter, Sequence } from 'tone';
 
